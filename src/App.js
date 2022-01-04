@@ -14,10 +14,15 @@ class App extends React.Component {
       ],
       filter: '',
       
-      }
+      };
+      deleteContact = contId=>{
+         this.setState(prevState=>({
+            contacts: prevState.contacts.filter(contact=>contact.id !==contId),
+         }));
+      };
    handleFormSubmit = data=>{
 
-   }
+   };
       render(){
          const{contacts}= this.state;
       return(
@@ -27,7 +32,7 @@ class App extends React.Component {
             </Section>
             <Section title='Contact'>
                {/* <Filter/> */}
-               <ContactList contacts={contacts}/>
+               <ContactList contacts={contacts} onDeleteContact={this.deleteContact}/>
             </Section>
 
             </>
