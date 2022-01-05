@@ -1,18 +1,21 @@
 import React from "react";
-
+import s from './Contact.module.scss'
 
 class ContactForm extends React.Component{
 state={
    name: '',
-   number: ''
-}
-handleChange = e =>{
+   number: '',
+};
+
+   
+   handleChange = e =>{
    const{ name, value} = e.currentTarget;
    this.setState({[name]:value});
    };
    handleSubmit = e =>{
       e.preventDefault();
       this.props.onSubmit(this.state);
+     
       this.reset();
    };
    reset=()=>{
@@ -22,10 +25,11 @@ handleChange = e =>{
    }
 render(){
    return(
-   <form onSubmit={this.handleSubmit}>
-      <label>
+   <form className={s.form} onSubmit={this.handleSubmit}>
+      <label className={s.label} > 
          Name
          <input
+         className={s.input}
          type="text"
          value= {this.state.name}
          onChange= {this.handleChange}
@@ -36,9 +40,10 @@ render(){
          required
       /> 
       </label>
-      <label>
+      <label className={s.label}>
          Number
             <input
+            className={s.input}
             type="tel"
             value= {this.state.number}
             onChange= {this.handleChange}
@@ -49,7 +54,7 @@ render(){
             />
          
       </label>
-      <button type="submit" >
+      <button className={s.button} type="submit" >
          Add contact
       </button>
    </form>

@@ -4,12 +4,12 @@ import s from './Section.module.scss'
 const Section = ({ children, title }) => {
   return (
     <section className={s.Section}>
-      <div >
+      <div className={s.Conteiner } >
         <h1>{title}</h1>
         {children}
       </div>
     </section>
-  );
+  )
 };
 
 Section.propTypes = {
