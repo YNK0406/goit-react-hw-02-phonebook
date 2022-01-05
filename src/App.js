@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
+import { nanoid } from "nanoid";
 import ContactForm from "./component/Contact/ContactForm";
 import Section from "./component/Section/Section";
 import ContactList from "./component/Contact/ContactList";
-// import Filter from "./component/Section/Filter/Filter";
+import Filter from "./component/Filter/Filter";
 
-class App extends React.Component {
+class App extends Component {
    state = {
       contacts: [
          {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
@@ -13,26 +14,54 @@ class App extends React.Component {
          {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
       ],
       filter: '',
-      
       };
-      deleteContact = contId=>{
+
+      addContact = ({ name, number }) => {
+         const contact = {
+         id: nanoid(),
+         name,
+         number,
+         };
+         this.setState(({ contacts }) => {
+         if (contacts.some((contact) => contact.name === name)) {
+            return alert(`${name} is already in contacts.`);
+         }
+         return {
+            contacts: [contact, ...contacts],
+         };
+         });
+      };
+      deleteContact = delId=>{
          this.setState(prevState=>({
-            contacts: prevState.contacts.filter(contact=>contact.id !==contId),
+            contacts: prevState.contacts.filter(contact=>contact.id !==delId),
          }));
       };
-   handleFormSubmit = data=>{
-
-   };
+      changeFilter = e =>{
+         this.setState({filter: e.currentTarget.value});
+      };
+      getFilterContacts = () => {
+         const { contacts, filter } = this.state;
+         const normalizeFilter = filter.toLowerCase();
+         return contacts.filter(contact =>
+         contact.name.toLowerCase().includes(normalizeFilter),
+         );
+      };
       render(){
-         const{contacts}= this.state;
+       
+         const contactFilter = this.getFilterContacts();
       return(
             <>
             <Section title='Phonebook'>
-               <ContactForm onSubmit={this.handleFormSubmit}/>
+               <ContactForm onSubmit={this.addContact}/>
             </Section>
             <Section title='Contact'>
-               {/* <Filter/> */}
-               <ContactList contacts={contacts} onDeleteContact={this.deleteContact}/>
+               <Filter value={this.state.filter} onChange={this.changeFilter}/>
+               <ContactList 
+               
+               contacts={contactFilter} 
+               onDeleteContact={this.deleteContact}
+               
+               />
             </Section>
 
             </>
